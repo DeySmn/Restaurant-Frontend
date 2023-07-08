@@ -269,66 +269,68 @@ export class CheckoutComponent implements OnInit {
   }
   onPaymentViaRazorPay() {
     const payment = {
-      name: 'Total Amount',
+      name: this.orderSummary.customerInfo.name,
+      email: this.orderSummary.customerInfo.email,
       currency: 'inr',
       amount: this.orderSummary.netAmount,
       quantity: '1',
       cancelUrl: 'https://localhost:4200/cart/checkout',
       successUrl: 'https://localhost:4200/order/confirmation',
     };
-    let options = {
-      key: '',
-      amount: '',
-      name: 'AMMA KI KADAI',
-      description: 'Web Development',
-      image: '../../../assets/img/hero-1.jpg',
-      order_id: '',
-      handler: function (response) {
-        var event = new CustomEvent('payment.success', {
-          detail: response,
-          bubbles: true,
-          cancelable: true,
-        });
-        window.dispatchEvent(event);
-      },
-      prefill: {
-        name: '',
-        email: '',
-        contact: '',
-      },
-      notes: {
-        address: '',
-      },
-      theme: {
-        color: '#ffb633',
-      },
-    };
-    let paymentId = '';
-    let error = '';
+    // let options = {
+    //   key: '',
+    //   amount: '',
+    //   name: 'AMMA KI KADAI',
+    //   description: 'Web Development',
+    //   image: '../../../assets/img/hero-1.jpg',
+    //   order_id: '',
+    //   handler: function (response) {
+    //     var event = new CustomEvent('payment.success', {
+    //       detail: response,
+    //       bubbles: true,
+    //       cancelable: true,
+    //     });
+    //     window.dispatchEvent(event);
+    //   },
+    //   prefill: {
+    //     name: '',
+    //     email: '',
+    //     contact: '',
+    //   },
+    //   notes: {
+    //     address: '',
+    //   },
+    //   theme: {
+    //     color: '#ffb633',
+    //   },
+    // };
+    // let paymentId = '';
+    // let error = '';
     this.orderService.initiateRazorPayPayment(payment).subscribe(
       (data) => {
-        options.key = data.secretId;
-        options.order_id = data.razorpayOrderId;
-        options.amount = data.applicationFee; //paise
-        options.prefill.name = 'SMN';
-        options.prefill.email = 'smn@gmail.com';
-        options.prefill.contact = '7980581501';
+        // options.key = data.secretId;
+        // options.order_id = data.razorpayOrderId;
+        // options.amount = data.applicationFee; //paise
+        // options.prefill.name = 'SMN';
+        // options.prefill.email = 'smn@gmail.com';
+        // options.prefill.contact = '7980581501';
 
-        var rzp = new Razorpay(options);
-        rzp.open();
+        // var rzp = new Razorpay(options);
+        // rzp.open();
 
-        rzp.on('payment.failed', function (response) {
-          // Todo - store this information in the server
-          console.log(response);
-          console.log(response.error.code);
-          console.log(response.error.description);
-          console.log(response.error.source);
-          console.log(response.error.step);
-          console.log(response.error.reason);
-          console.log(response.error.metadata.order_id);
-          console.log(response.error.metadata.payment_id);
-          this.error = response.error.reason;
-        });
+        // rzp.on('payment.failed', function (response) {
+        //   // Todo - store this information in the server
+        //   console.log(response);
+        //   console.log(response.error.code);
+        //   console.log(response.error.description);
+        //   console.log(response.error.source);
+        //   console.log(response.error.step);
+        //   console.log(response.error.reason);
+        //   console.log(response.error.metadata.order_id);
+        //   console.log(response.error.metadata.payment_id);
+        //   this.error = response.error.reason;
+        // });
+        location.href = data.id;
       },
       (err) => {
         console.log(err.error.message);
