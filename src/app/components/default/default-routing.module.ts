@@ -16,6 +16,7 @@ import { PastOrderComponent } from './order/past-order/past-order.component';
 import { OrderDetailsComponent } from './order/order-details/order-details.component';
 import { OrderConfirmationComponent } from './order/order-confirmation/order-confirmation.component';
 import { AuthGuard } from 'src/app/guard/auth.guard';
+import { WebSocketComponent } from './web-socket/web-socket.component';
 const routes: Routes = [
   {
     path: '',
@@ -96,6 +97,10 @@ const routes: Routes = [
       {
         path: 'forget-password',
         component: ForgetPasswordComponent,
+      },
+      {
+        path: 'websocket',
+        component: WebSocketComponent,
       },
     ],
   },

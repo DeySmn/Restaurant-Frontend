@@ -51,6 +51,7 @@ import { HttpHeaderInterceptor } from 'src/app/interceptors/http-header.intercep
 import { ScreenLoaderInterceptor } from 'src/app/interceptors/screen-loader.interceptor';
 import { HttpErrorInterceptor } from 'src/app/interceptors/http-error.interceptor';
 import { DefaultComponent } from './default.component';
+import { WebSocketComponent } from './web-socket/web-socket.component';
 
 const fbLoginOptions = {
   scope: 'public_profile',
@@ -83,6 +84,7 @@ const fbLoginOptions = {
     OrderConfirmationComponent,
     ForgetPasswordComponent,
     ChangePasswordComponent,
+    WebSocketComponent,
   ],
   imports: [
     BrowserModule,
