@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
-import { WebSocketComponent } from 'src/app/components/default/web-socket/web-socket.component';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -10,9 +10,8 @@ export class WebsocketService {
   webSocketEndPoint: string = 'https://localhost:8090/ws';
   topic: string = '/topic/greetings';
   stompClient: any;
-  webSocketComponent: WebSocketComponent;
-  constructor(webSocketComponent: WebSocketComponent) {
-    this.webSocketComponent = webSocketComponent;
+  response = new BehaviorSubject<any>(null);
+  constructor() {
   }
   _connect() {
     console.log('Initialize WebSocket Connection');
@@ -23,7 +22,7 @@ export class WebsocketService {
       {},
       function (frame) {
         _this.stompClient.subscribe(_this.topic, function (sdkEvent) {
-          _this.onMessageReceived(sdkEvent);
+           _this.onMessageReceived(sdkEvent);
         });
         //_this.stompClient.reconnect_delay = 2000;
       },
@@ -59,6 +58,7 @@ export class WebsocketService {
     console.log('Message Recieved from Server :: ');
     console.log(JSON.parse(message.body).content);
     console.log(':: Message Recieved from Server');
-    this.webSocketComponent.handleMessage(JSON.parse(message.body).content);
+    this.response.next(JSON.parse(message.body).content);
+    console.log(this.response);
   }
 }

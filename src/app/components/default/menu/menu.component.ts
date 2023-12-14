@@ -5,7 +5,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ProductService } from 'src/app/services/product-review/product.service';
 import { UserService } from 'src/app/services/user-coupon-order/user.service';
 import { EncryptDecryptService } from 'src/app/services/common/encrypt-decrypt.service';
@@ -16,6 +16,7 @@ import { product } from 'src/app/models/product';
 import { foodType } from 'src/app/models/foodType';
 import { secretKey } from 'src/app/models/secretKey';
 import { CartItemsInfo } from 'src/app/models/cartItemsInfo';
+import { WebsocketService } from 'src/app/services/websocket/websocket.service';
 
 @Component({
   selector: 'app-menu',
@@ -31,7 +32,7 @@ import { CartItemsInfo } from 'src/app/models/cartItemsInfo';
     ]),
   ],
 })
-export class MenuComponent implements OnInit {
+export class MenuComponent implements OnInit, OnDestroy {
   breakfastList: product[] = [];
   lunchList: product[] = [];
   dinnerList: product[] = [];
@@ -46,10 +47,16 @@ export class MenuComponent implements OnInit {
     private authService: AuthService,
     private userService: UserService,
     private encrypt_decrypt: EncryptDecryptService,
-    private loader: ScreenLoaderService
-  ) { }
+    private loader: ScreenLoaderService,
+    private webSocketService: WebsocketService
+  ) {}
 
   ngOnInit(): void {
+    this.webSocketService._connect();
+    this.webSocketService.response.subscribe((data) => {
+      console.log(data);
+      this.getAllProducts();
+    });
     this.loader.isLoading.subscribe((data) => {
       this.isLoaded = data;
     });
@@ -111,5 +118,9 @@ export class MenuComponent implements OnInit {
           this.userService.setUserDetails(data.body);
         });
     }
+  }
+
+  ngOnDestroy() {
+    this.webSocketService._disconnect();
   }
 }
