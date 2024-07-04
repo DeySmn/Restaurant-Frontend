@@ -293,8 +293,8 @@ export class CheckoutComponent implements OnInit {
       currency: 'inr',
       amount: this.orderSummary.netAmount,
       quantity: '1',
-      cancelUrl: 'http://localhost:4200/cart/checkout',
-      successUrl: 'http://localhost:4200/order/confirmation',
+      cancelUrl: 'https://localhost:4200/cart/checkout',
+      successUrl: 'https://localhost:4200/order/confirmation',
     };
     const stripe = await this.stripePromise;
 
@@ -317,8 +317,8 @@ export class CheckoutComponent implements OnInit {
       currency: 'inr',
       amount: this.orderSummary.netAmount,
       quantity: '1',
-      cancelUrl: 'http://localhost:4200/cart/checkout',
-      successUrl: 'http://localhost:4200/order/confirmation',
+      cancelUrl: 'https://localhost:4200/cart/checkout',
+      successUrl: 'https://localhost:4200/order/confirmation',
     };
     let options = {
       key: '',
